@@ -1,0 +1,5 @@
+Coke        25      15
+Sprite      25       8
+Water       15      20
+Chips       20       5
+Chocolate   30      12
