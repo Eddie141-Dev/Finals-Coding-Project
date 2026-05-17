@@ -3,7 +3,6 @@ def Items():
     contents = storage.read()
     storage.close()
     print(contents)
-    
 '''for reading the content of the file '''
 
 def load_inventory():
@@ -16,7 +15,6 @@ def load_inventory():
             inventory.append([name, int(price), int(qty)])
     stock.close()
     return inventory
-    
 '''for restokcking the items and for buying the items'''
 
 def save_inventory(inventory):

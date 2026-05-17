@@ -1,4 +1,4 @@
-Coke        25      15
+Coke        25      20
 Sprite      25       8
 Water       15      20
 Chips       20       5
