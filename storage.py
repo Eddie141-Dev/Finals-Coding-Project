@@ -23,3 +23,8 @@ def save_inventory(inventory):
         stock.write(f"{item[0]:<10} {item[1]:>3} {item[2]:>7}\n")
     stock.close()
 '''for saving the updated inventory back to the file'''
+
+def Vending_Pass():
+    ID = "admin123"
+    return ID
+'''Password to access the vending machine'''

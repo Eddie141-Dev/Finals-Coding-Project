@@ -4,6 +4,10 @@ vending_machine = storage.load_inventory()
 close = True
 while close:
     order = []
+    print("\nVending Machine")
+    print("Name    Price    Amount")
+    for i in vending_machine:
+        print(f"{i[0]:<10} ${i[1]:^3} {i[2]:>7}")
     print('''
 Vending Machine (Project 7)
     1. Buy Item
@@ -17,10 +21,6 @@ Vending Machine (Project 7)
 
     if option.isdigit():
         if option == "1":
-            print("\nVending Machine")
-            print("Name    Price    Amount")
-            for i in vending_machine:
-                print(f"{i[0]:<10} ${i[1]:^3} {i[2]:>7}")
             item = input("\nEnter the name of the item you want to buy: ")
             found = False
             for i in vending_machine:
@@ -53,76 +53,47 @@ Vending Machine (Project 7)
                 print(f"{i[0]:<10} ${i[1]:^3} {i[2]:>7}")
         elif option == "3":
             access = input("Enter admin password to restock: ")
-            if access != "admin123":
+            if access != storage.Vending_Pass():
                 print("Incorrect password. Access denied.")
                 close = False
-            print("Restock Items")
-            for i in vending_machine:
-                print(f"{i[0]:<10} ${i[1]:^3} {i[2]:>7}")
-            choice = input("Enter item name to restock: ")
-            found = False
-            for i in vending_machine:
-                if choice == i[0]:
-                    found = True
-                    qty = input(f"How many {i[0]} to add? ")
-                    if qty.isdigit() and int(qty) > 0:
-                        i[2] += int(qty)
-                        storage.save_inventory(vending_machine)
-                        print("Restocked successfully.")
-                        again = input("Do you want to make another transaction? (y/n): ")
-                        if again.lower() == "y":
+            else:
+                print("Restock Items")
+                choice = input("Enter item name to restock: ")
+                found = False
+                for i in vending_machine:
+                    if choice == i[0]:
+                        found = True
+                        qty = input(f"How many {i[0]} to add? ")
+                        if qty.isdigit() and int(qty) > 0:
+                            i[2] += int(qty)
+                            storage.save_inventory(vending_machine)
+                            print("Restocked successfully.")
+                            again = input("Do you want to make another transaction? (y/n): ")
+                            if again.lower() == "y":
+                                continue
+                            elif again.lower() == "n":
+                                print("Exiting..")
+                                print("Done!")
+                                close = False
+                        else:
+                            print("Invalid quantity.")
                             continue
-                        elif again.lower() == "n":
-                            print("Exiting..")
-                            print("Done!")
-                            close = False
-                    else:
-                        print("Invalid quantity.")
-                        continue
-            if not found:
-                print("Invalid item name.")
-                close = False
+                if not found:
+                    print("Invalid item name.")
+                    close = False
         elif option == "4":
             access = input("Enter admin password to add new item: ")
-            if access != "admin123":
+            if access != storage.Vending_Pass():
                 print("Incorrect password. Access denied.")
                 close = False
-            print("Adding New Item")
-            for i in vending_machine:
-                print(f"{i[0]:<10} ${i[1]:^3} {i[2]:>7}")
-            name = input("Enter the name of the new item: ")
-            price = input("Enter the price of the new item: ")
-            amount = input("Enter initial stock of the new item: ")
-            if price.isdigit() and amount.isdigit():
-                vending_machine.append([name, int(price), int(amount)])
-                storage.save_inventory(vending_machine)
-                print("Item added successfully.")
-                again = input("Do you want to make another transaction? (y/n): ")
-                if again.lower() == "y":
-                    continue
-                elif again.lower() == "n":
-                    print("Exiting..")
-                    print("Done!")
-                    close = False
             else:
-                print("Invalid input. Please enter valid numbers for price and amount.")
-                close = False
-        elif option == "5":
-            access = input("Enter admin password to remove item: ")
-            if access != "admin123":
-                print("Incorrect password. Access denied.")
-                close = False
-            print("Removing Item")
-            for i in vending_machine:
-                print(f"{i[0]:<10} ${i[1]:^3} {i[2]:>7}")
-            name = input("Enter the name of the item to remove: ")
-            found = False
-            for i in vending_machine:
-                if name == i[0]:
-                    found = True
-                    vending_machine.remove(i)
+                name = input("Enter the name of the new item: ")
+                price = input("Enter the price of the new item: ")
+                amount = input("Enter initial stock of the new item: ")
+                if price.isdigit() and amount.isdigit():
+                    vending_machine.append([name, int(price), int(amount)])
                     storage.save_inventory(vending_machine)
-                    print("Item removed successfully.")
+                    print("Item added successfully.")
                     again = input("Do you want to make another transaction? (y/n): ")
                     if again.lower() == "y":
                         continue
@@ -130,9 +101,36 @@ Vending Machine (Project 7)
                         print("Exiting..")
                         print("Done!")
                         close = False
-            if not found:
-                print("Invalid item name.")
+                else:
+                    print("Invalid input. Please enter valid numbers for price and amount.")
+                    close = False
+        elif option == "5":
+            access = input("Enter admin password to remove item: ")
+            if access != storage.Vending_Pass():
+                print("Incorrect password. Access denied.")
                 close = False
+            else:
+                print("Select what item to remove:")
+                for i in vending_machine:
+                    print(f"{i[0]:<10} ${i[1]:^3} {i[2]:>7}")
+                name = input("Enter the name of the item to remove: ")
+                found = False
+                for i in vending_machine:
+                    if name == i[0]:
+                        found = True
+                        vending_machine.remove(i)
+                        storage.save_inventory(vending_machine)
+                        print("Item removed successfully.")
+                        again = input("Do you want to make another transaction? (y/n): ")
+                        if again.lower() == "y":
+                            continue
+                        elif again.lower() == "n":
+                            print("Exiting..")
+                            print("Done!")
+                            close = False
+                if not found:
+                    print("Invalid item name.")
+                    close = False
         elif option == "6":
             print("Exiting..")
             print("Done!")
