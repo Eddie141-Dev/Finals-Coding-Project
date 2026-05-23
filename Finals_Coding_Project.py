@@ -30,15 +30,7 @@ Vending Machine (Project 7)
                         i[2] -= 1
                         print(f"You have bought {i[0]} for ${i[1]}.")
                         storage.save_inventory(vending_machine)
-                        again = input("Do you want to make another transaction? (y/n): ")
-                        if again.lower() == "y":
-                            continue
-                        elif again.lower() == "n":
-                            print("Exiting..")
-                            print("Done!")
-                            close = False
-                        else:
-                            print("Invalid input, assuming no.")
+                        if not storage.again_loop():
                             close = False
                     else:
                         print(f"Sorry, {i[0]} is out of stock.")
@@ -64,16 +56,14 @@ Vending Machine (Project 7)
                     if choice == i[0]:
                         found = True
                         qty = input(f"How many {i[0]} to add? ")
-                        if qty.isdigit() and int(qty) > 0:
+                        if qty.isdigit() and int(qty) >= 20:
+                            print("Cannot restock more than 20 items at a time.")
+                            close = False
+                        elif qty.isdigit() and int(qty) > 0:
                             i[2] += int(qty)
                             storage.save_inventory(vending_machine)
                             print("Restocked successfully.")
-                            again = input("Do you want to make another transaction? (y/n): ")
-                            if again.lower() == "y":
-                                continue
-                            elif again.lower() == "n":
-                                print("Exiting..")
-                                print("Done!")
+                            if not storage.again_loop():
                                 close = False
                         else:
                             print("Invalid quantity.")
@@ -90,18 +80,18 @@ Vending Machine (Project 7)
                 name = input("Enter the name of the new item: ")
                 price = input("Enter the price of the new item: ")
                 amount = input("Enter initial stock of the new item: ")
-                if price.isdigit() and amount.isdigit():
+                if not storage.Inventory_limit():
+                        close = False
+                elif price.isdigit() and amount.isdigit():
                     vending_machine.append([name, int(price), int(amount)])
                     storage.save_inventory(vending_machine)
-                    print("Item added successfully.")
-                    again = input("Do you want to make another transaction? (y/n): ")
-                    if again.lower() == "y":
-                        continue
-                    elif again.lower() == "n":
-                        print("Exiting..")
-                        print("Done!")
+                    print("New item added successfully.")
+                    if not storage.again_loop():
                         close = False
-                else:
+                if amount.isdigit() and int(amount) >= 20:
+                    print("Cannot restock more than 20 items at a time.")
+                    close = False
+                elif not price.isdigit() or not amount.isdigit():
                     print("Invalid input. Please enter valid numbers for price and amount.")
                     close = False
         elif option == "5":
@@ -121,12 +111,7 @@ Vending Machine (Project 7)
                         vending_machine.remove(i)
                         storage.save_inventory(vending_machine)
                         print("Item removed successfully.")
-                        again = input("Do you want to make another transaction? (y/n): ")
-                        if again.lower() == "y":
-                            continue
-                        elif again.lower() == "n":
-                            print("Exiting..")
-                            print("Done!")
+                        if not storage.again_loop():
                             close = False
                 if not found:
                     print("Invalid item name.")
