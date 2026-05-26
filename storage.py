@@ -1,4 +1,4 @@
-def Items(): 
+def items(): 
     storage = open("Items.txt", "r", encoding="utf-8")
     contents = storage.read()
     storage.close()
@@ -24,7 +24,7 @@ def save_inventory(inventory):
     stock.close()
 '''for saving the updated inventory back to the file'''
 
-def Vending_Pass():
+def vending_pass():
     ID = "admin123"
     return ID
 '''Password to access the vending machine'''
@@ -42,7 +42,7 @@ def again_loop():
         return again_loop()
 '''for asking the user if they want to make another transaction'''
 
-def Inventory_limit():
+def inventory_limit():
     inventory = load_inventory()
     limit = 15
     if len(inventory) >= limit:
