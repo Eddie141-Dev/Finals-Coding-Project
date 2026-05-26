@@ -19,7 +19,7 @@ Vending Machine (Project 7)
     ''')
     option = input("\nEnter your Option: ")
 
-    if option.isdigit():
+    if storage.isadigit(option):
         if option == "1":
             item = input("\nEnter the name of the item you want to buy: ")
             found = False
@@ -34,10 +34,10 @@ Vending Machine (Project 7)
                             close = False
                     else:
                         print(f"Sorry, {i[0]} is out of stock.")
-                        continue
+                        close = True
             if not found:
                 print("Sorry, we don't have that item. Try Again.")
-                continue
+                close = True
         elif option == "2":
             print("\nItems in Stock:")
             print("Name    Price    Amount")
@@ -56,10 +56,10 @@ Vending Machine (Project 7)
                     if choice == i[0]:
                         found = True
                         qty = input(f"How many {i[0]} to add? ")
-                        if qty.isdigit() and int(qty) >= 20:
+                        if storage.isadigit(qty) and int(qty) > 20:
                             print("Cannot restock more than 20 items at a time.")
                             close = False
-                        elif qty.isdigit() and int(qty) > 0:
+                        elif storage.isadigit(qty) and int(qty) > 0:
                             i[2] += int(qty)
                             storage.save_inventory(vending_machine)
                             print("Restocked successfully.")
@@ -67,7 +67,7 @@ Vending Machine (Project 7)
                                 close = False
                         else:
                             print("Invalid quantity.")
-                            continue
+                            close = True
                 if not found:
                     print("Invalid item name.")
                     close = False
@@ -82,16 +82,16 @@ Vending Machine (Project 7)
                 amount = input("Enter initial stock of the new item: ")
                 if not storage.Inventory_limit():
                         close = False
-                elif price.isdigit() and amount.isdigit():
+                elif storage.isadigit(price) and storage.isadigit(amount):
                     vending_machine.append([name, int(price), int(amount)])
                     storage.save_inventory(vending_machine)
                     print("New item added successfully.")
                     if not storage.again_loop():
                         close = False
-                if amount.isdigit() and int(amount) >= 20:
+                if storage.isadigit(amount) and int(amount) > 20:
                     print("Cannot restock more than 20 items at a time.")
                     close = False
-                elif not price.isdigit() or not amount.isdigit():
+                elif not storage.isadigit(price) or not storage.isadigit(amount):
                     print("Invalid input. Please enter valid numbers for price and amount.")
                     close = False
         elif option == "5":
@@ -120,3 +120,8 @@ Vending Machine (Project 7)
             print("Exiting..")
             print("Done!")
             close = False
+        else:
+            print("Choice not in range. Try Again.")
+            close = True
+    else:
+        print("Invalid Selection. Try Again")
