@@ -1,5 +1,5 @@
 def items(): 
-    storage = open("Items.txt", "r", encoding="utf-8")
+    storage = open("Items.txt", "r")
     contents = storage.read()
     storage.close()
     print(contents)
@@ -7,7 +7,7 @@ def items():
 
 def load_inventory():
     inventory = []
-    stock = open("Items.txt", "r", encoding="utf-8")
+    stock = open("Items.txt", "r")
     for line in stock:
         parts = line.strip().split()
         if len(parts) == 3:
@@ -18,7 +18,7 @@ def load_inventory():
 '''for restokcking the items and for buying the items'''
 
 def save_inventory(inventory):
-    stock = open("Items.txt", "w", encoding="utf-8")
+    stock = open("Items.txt", "w")
     for item in inventory:
         stock.write(f"{item[0]:<10} {item[1]:>3} {item[2]:>7}\n")
     stock.close()
