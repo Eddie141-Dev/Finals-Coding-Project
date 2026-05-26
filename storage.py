@@ -49,3 +49,14 @@ def Inventory_limit():
         print("Vending machine at max capacity. Cannot load more items.")
         return False
     return True
+
+def isadigit(string):
+    if not string:
+        return False
+    digits = "0123456789"
+
+    for characters in string:
+        if characters not in digits:
+            return False
+    return True
+'''Checks if an input is a digit or not'''
