@@ -1,5 +1,4 @@
 import storage
-
 vending_machine = storage.load_inventory()
 close = True
 while close:
@@ -18,7 +17,6 @@ Vending Machine (Project 7)
     6. Exit
     ''')
     option = input("\nEnter your Option: ")
-
     if storage.isadigit(option):
         if option == "1":
             item = input("\nEnter the name of the item you want to buy: ")
@@ -45,7 +43,7 @@ Vending Machine (Project 7)
                 print(f"{i[0]:<10} ${i[1]:^3} {i[2]:>7}")
         elif option == "3":
             access = input("Enter admin password to restock: ")
-            if access != storage.Vending_Pass():
+            if access != storage.vending_pass():
                 print("Incorrect password. Access denied.")
                 close = False
             else:
@@ -73,14 +71,14 @@ Vending Machine (Project 7)
                     close = False
         elif option == "4":
             access = input("Enter admin password to add new item: ")
-            if access != storage.Vending_Pass():
+            if access != storage.vending_pass():
                 print("Incorrect password. Access denied.")
                 close = False
             else:
                 name = input("Enter the name of the new item: ")
                 price = input("Enter the price of the new item: ")
                 amount = input("Enter initial stock of the new item: ")
-                if not storage.Inventory_limit():
+                if not storage.inventory_limit():
                         close = False
                 elif storage.isadigit(price) and storage.isadigit(amount):
                     vending_machine.append([name, int(price), int(amount)])
@@ -96,7 +94,7 @@ Vending Machine (Project 7)
                     close = False
         elif option == "5":
             access = input("Enter admin password to remove item: ")
-            if access != storage.Vending_Pass():
+            if access != storage.vending_pass():
                 print("Incorrect password. Access denied.")
                 close = False
             else:
