@@ -48,6 +48,8 @@ Vending Machine (Project 7)
                 close = False
             else:
                 print("Restock Items")
+                for i in vending_machine:
+                    print(f"{i[0]:<10} ${i[1]:^3} {i[2]:>7}")
                 choice = input("Enter item name to restock: ")
                 found = False
                 for i in vending_machine:
